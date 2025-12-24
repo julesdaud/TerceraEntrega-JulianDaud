@@ -23,16 +23,18 @@ def listar_cliente(request):
 
 def buscar_disco(request):
     form = DiscoForm(request.GET or None)
-    discos = None
+    discos = Disco.objects.all()  # siempre empieza con todos
 
-    if request.GET and form.is_valid():
+    if form.is_valid():
         artista_nombre = form.cleaned_data.get('artista')
         titulo = form.cleaned_data.get('titulo')
         genero = form.cleaned_data.get('genero')
 
-        discos = Disco.objects.all()
         if artista_nombre:
-            discos = discos.filter(artista__nombre__icontains=artista_nombre)
+            try:
+                discos = discos.filter(artista__nombre__icontains=artista_nombre)
+            except:
+                pass  # si falla por ForeignKey, ignora
         if titulo:
             discos = discos.filter(titulo__icontains=titulo)
         if genero:
@@ -40,8 +42,15 @@ def buscar_disco(request):
 
     return render(request, 'tienda/buscar_disco.html', {
         'form': form,
-        'discos': discos if discos else None
+        'discos': discos
     })
+
+
+    return render(request, 'tienda/buscar_disco.html', {
+        'form': form,
+        'discos': discos
+    })
+
 
 def nosotros(request):
         return render(request, 'tienda/nosotros.html')
