@@ -1,0 +1,72 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-center my-5">
+    <h1 style="color: #343a40; font-weight: bold;">Buscar Discos</h1>
+    <p class="text-muted">Encuentra tu disco favorito por artista, título o género.</p>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'tienda:mis_pedidos' %}" class="btn btn-outline-dark mt-3">
+            Ver mis pedidos
+        </a>
+    {% endif %}
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-5 shadow-lg rounded-4" style="background-color: #ffffff;">
+                <form method="get" class="row g-3">
+                    <div class="col-12">
+                        <input type="text" name="artista" placeholder="Artista" class="form-control" value="{{ request.GET.artista }}">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" name="titulo" placeholder="Título" class="form-control" value="{{ request.GET.titulo }}">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" name="genero" placeholder="Género" class="form-control" value="{{ request.GET.genero }}">
+                    </div>
+                    <div class="col-12 d-grid mt-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+
+                <ul class="list-group mt-4">
+                {% for disco in discos %}
+                    <li class="list-group-item small d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ disco.titulo }}</strong>
+                            - {{ disco.artista.nombre }}
+                            ({{ disco.genero }})
+                            - ${{ disco.precio }}
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'tienda:agregar_pedido_desde_catalogo' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="disco_id" value="{{ disco.id }}">
+                                <button class="btn btn-sm btn-outline-primary">
+                                    Agregar pedido
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'users:login' %}?next={% url 'tienda:buscar_disco' %}" class="btn btn-sm btn-outline-secondary">
+                                Consultar
+                            </a>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-center text-muted">
+                        No se encontraron discos.
+                    </li>
+                {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

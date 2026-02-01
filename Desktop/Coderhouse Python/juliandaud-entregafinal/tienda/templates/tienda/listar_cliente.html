@@ -1,0 +1,14 @@
+{% extends "tienda/index.html" %}
+
+{% block titulo %}Clientes - Tienda de Discos{% endblock %}
+
+{% block contenido %}
+<h2>Listado de Clientes</h2>
+<ul class="list-group">
+{% for cliente in clientes %}
+    <li class="list-group-item">{{ cliente.nombre }} - {{ cliente.email }}{% if cliente.telefono %} - {{ cliente.telefono }}{% endif %}</li>
+{% empty %}
+    <li class="list-group-item">No hay clientes</li>
+{% endfor %}
+</ul>
+{% endblock %}

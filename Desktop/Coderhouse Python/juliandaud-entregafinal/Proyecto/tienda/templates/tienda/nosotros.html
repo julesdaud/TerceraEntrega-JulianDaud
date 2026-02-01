@@ -1,0 +1,25 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-5 shadow-lg rounded-4" style="background-color: #ffffff;">
+                <h2 class="text-center mb-4">Nosotros</h2>
+                <p class="text-muted text-center">
+                    Desde 1975, en el barrio de Villa Ortúzar, damos origen a <strong>Fat Cat Records</strong>.  
+                    Nuestra pasión es acercarte los mejores discos y artistas, intentando que la música esté siempre a tu alcance.
+                </p>
+                <p class="text-center">
+                    Creemos que cada vinilo, cada CD, y cada artista tienen una historia que merece ser escuchada.  
+                    Por eso, desde nuestros comienzos, nos esforzamos por ofrecerte una experiencia única, donde la música y la cultura se encuentran.
+                </p>
+                <div class="text-center mt-4">
+                    <img src="{% static 'pics/fatcatrecords.jpg' %}" class="img-fluid rounded" alt="Fat Cat Records">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

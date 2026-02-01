@@ -1,0 +1,16 @@
+{% extends "tienda/index.html" %}
+
+{% block titulo %}Discos - Tienda de Discos{% endblock %}
+
+{% block contenido %}
+<h2>Listado de Discos</h2>
+<ul class="list-group">
+{% for disco in discos %}
+    <li class="list-group-item">
+        {{ disco.titulo }} - {{ disco.artista.nombre }} - ${{ disco.precio }} - {{ disco.genero }} ({{ disco.año_lanzamiento }})
+    </li>
+{% empty %}
+    <li class="list-group-item">No hay discos</li>
+{% endfor %}
+</ul>
+{% endblock %}
